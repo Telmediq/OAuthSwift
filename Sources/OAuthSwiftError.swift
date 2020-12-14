@@ -18,7 +18,7 @@ public enum OAuthSwiftError: Error {
     /// Returned state value is wrong
     case stateNotEqual(state: String, responseState: String)
     /// Error from server
-    case serverError(message: String)
+    case serverError(message: String, description: String?)
     /// Failed to create URL \(urlString) not convertible to URL, please encode
     case encodingError(urlString: String)
     /// Failed to create request with \(urlString)
@@ -94,7 +94,7 @@ public enum OAuthSwiftError: Error {
 
     public var underlyingMessage: String? {
         switch self {
-        case .serverError(let m): return m
+        case .serverError(let m, _): return m
         case .configurationError(let m): return m
         case .requestCreation(let m): return m
         default: return nil
@@ -111,7 +111,7 @@ extension OAuthSwiftError: CustomStringConvertible {
         case .tokenExpired(let e): return "tokenExpired[\(String(describing: e))]"
         case .missingState: return "missingState"
         case .stateNotEqual(let s, let e): return "stateNotEqual[\(s)<>\(e)]"
-        case .serverError(let m): return "serverError[\(m)]"
+        case .serverError(let m, _): return "serverError[\(m)]"
         case .encodingError(let urlString): return "encodingError[\(urlString)]"
         case .requestCreation(let m): return "requestCreation[\(m)]"
         case .missingToken: return "missingToken"
